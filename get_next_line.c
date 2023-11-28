@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:44 by almichel          #+#    #+#             */
-/*   Updated: 2023/11/28 00:33:22 by almichel         ###   ########.fr       */
+/*   Updated: 2023/11/28 02:50:00 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,24 @@ char *get_next_line(int fd)
 
 char *extract_line(int fd, char *buf, char *tab, int *readed)
 {
-	char *line;
 	
-	while (found_newline(line) == 0 && *readed != 0)
+	
+	while (found_newline(tab) == 0 && *readed > 0)
 	{
 		*readed = (int)read(fd, buf, BUFFER_SIZE);
 		if (*readed == -1)
 			return (NULL);
 		buf[*readed] = '\0';
-		line = ft_strjoin(tab, ft_check_n(buf));
+		tab = ft_strjoin(tab, ft_check_n(buf));
 	}
 	buf = ft_tri_tab(buf);
-	return (line);
+	return (tab);
 }
 int	found_newline(char *tab)
 {
 	int	i;
 	
 	i = 0;
-	if (tab == NULL)
-		return (0);
 	while (tab[i])
 	{
 		if (tab[i] == '\n')

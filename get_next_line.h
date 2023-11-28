@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:37 by almichel          #+#    #+#             */
-/*   Updated: 2023/11/28 00:30:28 by almichel         ###   ########.fr       */
+/*   Updated: 2023/11/28 02:01:17 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef	BUFFER_SIZE
-# define 	BUFFER_SIZE 55
+# define 	BUFFER_SIZE 1000
 # endif
 
 # include <fcntl.h>
