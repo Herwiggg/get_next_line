@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:47 by almichel          #+#    #+#             */
-/*   Updated: 2023/11/28 01:55:42 by almichel         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:18:16 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char *ft_check_n(char *str)
 	char 	*dest;
 	
 	i = -1;
+	//printf( "%s",str);
 	if (found_newline(str) == 0)
 	{
 		dest = malloc((ft_strlen(str) + 1) * sizeof(char));
@@ -47,12 +48,19 @@ char *ft_check_n(char *str)
 	}
 	else
 	{
+		i = 0;
 		dest = malloc((count_size(str) + 2) * sizeof(char));
 		if (!dest)
 			return (NULL);
-		while (str[++i - 1] != '\n' && str[i])
+		while (str[i] != '\n')
+			{
 			dest[i] = str[i];
-		dest[i++] = '\0';
+			i++;
+			}
+		dest[i] = '\n';
+		i++;
+		dest[i] = '\0';
 	}
+	printf("%s", dest);
 	return (dest);
 }
