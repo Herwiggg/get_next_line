@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:44 by almichel          #+#    #+#             */
-/*   Updated: 2023/11/29 21:18:50 by almichel         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:53:43 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,29 @@ char	*get_next_line(int fd)
 	static char	buf[BUFFER_SIZE + 1];
 	int			readed;
 	char		*line;
-
+	
 	line = malloc(1 * sizeof(char));
 	if (!line)
 		return (NULL);
 	line[0] = '\0';
 	readed = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (NULL);
+		{
+			free(line);
+			return (ft_clear_buff(buf));
+		}
+	if (buf[0] != 0 && found_newline(buf) == 0)
+		{
+			free(line);
+			line = malloc((ft_strlen(buf) + 1) * sizeof(char));
+			if (!line)
+				return (NULL);
+			int	i = -1;
+			while (buf[++i] && buf[i] != '\n')
+				line[i] = buf[i];
+			line[i] = '\0';
+		}
 	line = extract_line(fd, buf, &readed, line);
-	//line = ft_strjoin(line, ft_check_n(buf));
- //   printf("%s", tab);
 	ft_tri_tab(buf);
 	return (line);
 }
@@ -39,8 +51,11 @@ char  *extract_line(int fd, char *buf, int *readed, char *line)
 		if (found_newline(buf) == 0)
 		{
 		*readed = (int)read(fd, buf, BUFFER_SIZE);
-		if (*readed == -1)
-			return (NULL);
+		if ((*readed == -1 ) || (buf[0] == '\0' && *readed == 0))
+			{
+				free(line);
+				return (NULL);
+			}
 		buf[*readed] = '\0';
 		}
 		line = ft_strjoin(line, ft_check_n(buf));
@@ -70,13 +85,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	int 	lens2;
 	int		i;
 	int		j;
-//	printf("%s", s1);
+
 	j = 0;
 	i = 0;
 	lens1 = ft_strlen(s1);
-//	printf("%d", lens1);
 	lens2 = ft_strlen(s2);
-	//printf("%s", s1);
 	tab = malloc((lens1 + lens2 + 1) * sizeof(char));
 	if (!tab)
 		return (NULL);
@@ -86,6 +99,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 		j++;
 		}
+	free(s1);
 	i = 0;
 	while (s2[i])
 		{
@@ -94,7 +108,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 		}
 	tab[j] = '\0';
-	free(s1);
+	free(s2);
 	return (tab);
 }
 
@@ -115,7 +129,7 @@ void	ft_tri_tab(char *buf)
 	}
 	buf[i] = '\0';
 }
-
+/*
 #include <stdio.h>
 
 int	main(void)
@@ -126,13 +140,9 @@ int	main(void)
 	fd = open("simple.txt", O_RDONLY);
 
 	tab = get_next_line(fd);
-//	printf("%s", tab);
+	printf("%s", tab);
 	tab = get_next_line(fd);
-//	printf("%s", tab);
-	tab = get_next_line(fd);
-//	printf("%s", tab);
-//	tab = get_next_line(fd);
-//	printf("%s", tab);
-
+	printf("%s", tab);
+	free(tab);
 	return (0);
-}
+}*/
