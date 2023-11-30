@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:44 by almichel          #+#    #+#             */
-/*   Updated: 2023/11/30 16:53:43 by almichel         ###   ########.fr       */
+/*   Updated: 2023/11/30 23:40:13 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_next_line(int fd)
 	static char	buf[BUFFER_SIZE + 1];
 	int			readed;
 	char		*line;
-	
+
 	line = malloc(1 * sizeof(char));
 	if (!line)
 		return (NULL);
@@ -46,6 +46,9 @@ char	*get_next_line(int fd)
 
 char  *extract_line(int fd, char *buf, int *readed, char *line)
 {
+	int error;
+
+	error = 0;
 	while (*readed > 0)
 	{
 		if (found_newline(buf) == 0)
@@ -58,7 +61,12 @@ char  *extract_line(int fd, char *buf, int *readed, char *line)
 			}
 		buf[*readed] = '\0';
 		}
-		line = ft_strjoin(line, ft_check_n(buf));
+		line = ft_strjoin(line, ft_check_n(buf, &error));
+		if (error == 1 || !line)
+		{
+			free(line);
+			return (NULL);
+		}
 		if (found_newline(line) != 0)
 			break ;
 	}
@@ -88,11 +96,17 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	j = 0;
 	i = 0;
+	if (s2 == 0 && s1)
+        return (s1);
 	lens1 = ft_strlen(s1);
 	lens2 = ft_strlen(s2);
 	tab = malloc((lens1 + lens2 + 1) * sizeof(char));
 	if (!tab)
-		return (NULL);
+		{
+			free(s1);
+			free(s2);
+			return (NULL);
+		}
 	while (s1[i])
 		{
 		tab[j] = s1[i];

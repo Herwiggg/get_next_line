@@ -6,7 +6,7 @@
 /*   By: almichel <almichel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 16:07:37 by almichel          #+#    #+#             */
-/*   Updated: 2023/11/30 15:37:32 by almichel         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:51:20 by almichel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strjoin(char *s1, char *s2);
 void    ft_tri_tab(char *buf);
 int		ft_strlen(char *str);
 int		count_size(char *str);
-char	*ft_check_n(char *str);
+char	*ft_check_n(char *str, int *error);
 char	*ft_clear_buff(char *buffer);
 
 #endif
